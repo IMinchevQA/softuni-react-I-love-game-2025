@@ -11,7 +11,7 @@ export default function Catalog() {
             try {
                 const response = await fetch(BASE_URL);
                 const result = await response.json();
-                const gamesStateEntries = Object.entries(result).map(([_id, value]) => ({ _id, ...value }));
+                const gamesStateEntries = Object.entries(result).map(([_id, gameEntry]) => ({ _id, ...gameEntry }));
                 setGames(gamesStateEntries);
             } catch (error) {
                 console.error(error.message);
@@ -22,14 +22,13 @@ export default function Catalog() {
     return (
         <section id="catalog-page">
             <h1>Catalog</h1>
-            {games.length > 0
-                ? (
-                    <div className="catalog-container">
-                        {games.map(game => <Game key={game._id} {...game} />)}
-                    </div>
-                )
-                : <h3 className="no-articles">No Games Added Yet</h3>
-            }
+            <div className="catalog-container">
+
+                {games.length === 0 && <h3 className="no-articles">No Games Added Yet</h3>}
+
+                {games.map(game => <Game key={game._id} {...game} />)}
+
+            </div>
 
             {/* Some working alternative for playing arround */}
             {/* <div className="catalog-container">
@@ -39,6 +38,6 @@ export default function Catalog() {
                     <h3 className="no-articles">No articles</h3>
                 }
             </div> */}
-        </section>
+        </section >
     )
 }
