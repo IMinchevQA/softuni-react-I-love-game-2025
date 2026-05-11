@@ -3,6 +3,7 @@ import Home from './components/home/Home'
 import Footer from './components/footer/Footer'
 import { Route, Routes } from 'react-router-dom'
 import Catalog from './components/catalog/Catalog'
+import Details from './components/details/Details'
 
 function App() {
     return (
@@ -11,6 +12,7 @@ function App() {
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/games" element={<Catalog />} />
+                <Route path="/games/:gameId/details" element={<Details />} />
             </Routes>
             <Footer />
         </>
