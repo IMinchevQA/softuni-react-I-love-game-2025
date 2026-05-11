@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
-import Game from "../game/Game";
-
-const BASE_URL = "http://localhost:3030/jsonstore/games";
+import Game from "../game-card/GameCard";
+import config from "../../config.json";
 
 export default function Catalog() {
     const [games, setGames] = useState([]);
@@ -9,7 +8,7 @@ export default function Catalog() {
     useEffect(() => {
         (async () => {
             try {
-                const response = await fetch(BASE_URL);
+                const response = await fetch(config.BASE_URL);
                 const result = await response.json();
                 const gamesStateEntries = Object.entries(result).map(([_id, gameEntry]) => ({ _id, ...gameEntry }));
                 setGames(gamesStateEntries);
