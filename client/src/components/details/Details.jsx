@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import config from "../../config.json";
+import request from "../../utils/request";
 
 
 export default function Details() {
@@ -9,8 +10,7 @@ export default function Details() {
     const [game, setGame] = useState({});
 
     useEffect(() => {
-        fetch(`${config.BASE_URL}/${gameId}`)
-            .then(response => response.json())
+        request(`${config.BASE_URL}/${gameId}`)
             .then(result => setGame(result));
     }, [gameId]);
 
@@ -22,15 +22,11 @@ export default function Details() {
         }
 
         try {
-            await fetch(`${config.BASE_URL}/${gameId}`, {
-                method: 'DELETE',
-            });
-
+            await request(`${config.BASE_URL}/${gameId}`, 'DELETE');
             navigate('/games');
         } catch (err) {
-            alert(`Unable to delete game: ${err.message}`);
+            alert(`Unable to delete game: ${err}`);
         }
-
     }
 
     return (
