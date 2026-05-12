@@ -1,21 +1,20 @@
 import { useEffect, useState } from "react";
 import Game from "../game-card/GameCard";
 import config from "../../config.json";
+import request from "../../utils/request";
 
 export default function Catalog() {
     const [games, setGames] = useState([]);
 
     useEffect(() => {
-        (async () => {
-            try {
-                const response = await fetch(config.BASE_URL);
-                const result = await response.json();
+        request(config.BASE_URL)
+            .then(result => {
                 const gamesStateEntries = Object.entries(result).map(([_id, gameEntry]) => ({ _id, ...gameEntry }));
                 setGames(gamesStateEntries);
-            } catch (error) {
-                console.error(error.message);
-            }
-        })();
+            })
+            .catch(err => {
+                alert(err);
+            });
     }, [])
 
     return (

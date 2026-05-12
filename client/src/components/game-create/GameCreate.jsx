@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import config from "../../config.json";
+import request from "../../utils/request";
 
 export default function GameCreate() {
     const navigate = useNavigate();
@@ -7,26 +8,16 @@ export default function GameCreate() {
         e.preventDefault();
 
         const formData = new FormData(e.target);
-        console.log(formData);
         const data = Object.fromEntries(formData);
 
         data.players = Number(data.players);
         data._createdOn = Date.now();
 
         try {
-            const response = await fetch(config.BASE_URL, {
-                method: 'POST',
-                headers: {
-                    'content-type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            });
-
-            const result = await response.json();
-            console.log(result);
-            navigate('/games')
+            await request(config.BASE_URL, 'POST', data);
+            navigate('/games');
         } catch (err) {
-            alert(`Unable to create game: ${err.message}`);
+            alert(`Unable to create game: ${err}`);
         }
     }
 
